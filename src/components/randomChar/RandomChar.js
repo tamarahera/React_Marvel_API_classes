@@ -19,7 +19,7 @@ class RandomChar extends Component {
         char: {}
     }
 
-    marverlService = new MarvelService();
+    marvelService = new MarvelService();
 
     onCharLoaded = (char) => {
         this.setState({char})
@@ -27,9 +27,8 @@ class RandomChar extends Component {
     }
 
     updateChar = () => {
-        const id = 1011005;
-
-        this.marverlService
+        const id = Math.floor(Math.random() * (1010789 - 1009146) + 1009146);
+        this.marvelService
 /*             .getAllCharacters()
             .then(res => console.log(res)) */
             .getCharacter(id)
@@ -72,7 +71,7 @@ class RandomChar extends Component {
                     <button className="button button__main">
                         <div className="inner">try it</div>
                     </button>
-                    <img src={mjolnir} alt="mjolnir" className="randomchar__decoration"/>
+                    <img src='#' alt="mjolnir" className="randomchar__decoration"/>
                 </div>
             </div>
         )    

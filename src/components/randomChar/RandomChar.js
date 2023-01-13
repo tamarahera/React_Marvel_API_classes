@@ -9,7 +9,6 @@ import mjolnir from '../../resources/img/mjolnir.png';
 class RandomChar extends Component {
     constructor(props) {
         super(props);
-        this.updateChar();
     }
 
     state = {
@@ -20,12 +19,24 @@ class RandomChar extends Component {
 
     marvelService = new MarvelService();
 
+    componentDidMount () {
+        this.updateChar();
+    }
+
     onCharLoaded = (char) => {
         this.setState({
             char, 
             loading: false
         })
         /* або this.setState({{char: char}}) */
+    }
+
+    //коли запускається оновлення персонажу, перед запросом ставиться спінер
+    onCharLoading = () => {
+        this.setState({
+            loading: true,
+            error: false
+        })
     }
 
     onError = () => {
@@ -37,6 +48,7 @@ class RandomChar extends Component {
 
     updateChar = () => {
         const id = Math.floor(Math.random() * (1010789 - 1009146) + 1009146);
+        this.onCharLoading();
         this.marvelService
             .getCharacter(id)
             .then(this.onCharLoaded)
@@ -63,7 +75,7 @@ class RandomChar extends Component {
                     <p className="randomchar__title">
                         Or choose another one
                     </p>
-                    <button className="button button__main">
+                    <button onClick={this.updateChar} className="button button__main">
                         <div className="inner">try it</div>
                     </button>
                     <img src={mjolnir} alt="mjolnir" className="randomchar__decoration"/>                </div>

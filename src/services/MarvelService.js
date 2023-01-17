@@ -1,6 +1,7 @@
 class MarvelService {
     _apiBase = `https://gateway.marvel.com:443/v1/public/`; //лодаш неформально означає що ми не можемо змінювати ці дані
     _apiKey = `apikey=03bceba952252af3375580476ec6cb07`;
+    _baseOffsetCharacters = 210;
 
     getResource = async (url) => {
         let res = await fetch(url);
@@ -12,8 +13,8 @@ class MarvelService {
         return await res.json();
     }
 
-    getAllCharacters = async () => {
-        const res = await this.getResource(`${this._apiBase}characters?limit=9&offset=210&${this._apiKey}`);
+    getAllCharacters = async (offsetCharacters = this._baseOffsetCharacters) => {
+        const res = await this.getResource(`${this._apiBase}characters?limit=9&offset=${offsetCharacters}&${this._apiKey}`);
         return res.data.results.map(this._transformCharacter);
     }
 

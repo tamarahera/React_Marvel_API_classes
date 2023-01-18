@@ -9,22 +9,37 @@ class CharList extends Component {
     state = {
         charList: [],
         loading: true,
-        error: false
+        error: false,
+        newItemLoading: false,
+        offsetCharacters: 210,
+        charEnded: false
     }
     
     marvelService = new MarvelService();
 
     componentDidMount() {
-        this.marvelService.getAllCharacters()
+        this.onRequest(); // без аргументу, підставиться базовий відступ
+    }
+
+    onRequest = (offsetCharacters) => {
+        this.onCharListLoading();
+        this.marvelService.getAllCharacters(offsetCharacters)
             .then(this.onCharListLoaded)
             .catch(this.onError)
     }
 
-    onCharListLoaded = (charList) => {
+    onCharListLoading = () => {
         this.setState({
-            charList,
-            loading: false
+            newItemLoading: true
         })
+    }
+    
+    onCharListLoaded = (newCharList) => {
+        this.setState(({charList}) => ({
+            charList: [...charList, ...newCharList],
+            loading: false,
+            newItemLoading: false
+        }))
     }
 
     onError = () => {

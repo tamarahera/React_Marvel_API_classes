@@ -35,10 +35,14 @@ class CharList extends Component {
     }
     
     onCharListLoaded = (newCharList) => {
-        this.setState(({charList}) => ({
+
+
+        this.setState(({charList, offsetCharacters}) => ({ // пишемо в колбек, бо маємо дочекатися загрузку минулих персонажів
             charList: [...charList, ...newCharList],
             loading: false,
-            newItemLoading: false
+            newItemLoading: false,
+            offsetCharacters: offsetCharacters + 9,
+            charEnded: ended
         }))
     }
 
@@ -77,7 +81,7 @@ class CharList extends Component {
 
     render() {
 
-        const {charList, loading, error} = this.state;
+        const {charList, loading, error, newItemLoading, offsetCharacters} = this.state;
         
         const items = this.renderItems(charList);
 
@@ -90,7 +94,10 @@ class CharList extends Component {
                 {errorMessage}
                 {spinner}
                 {content}
-                <button className="button button__main button__long">
+                <button className="button button__main button__long"
+                        disabled={newItemLoading}
+
+                        onClick={() => this.onRequest(offsetCharacters)}>
                     <div className="inner">load more</div>
                 </button>
             </div>

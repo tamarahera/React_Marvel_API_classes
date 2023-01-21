@@ -6,13 +6,7 @@ class ErrorBoundary extends Component {
         error: false
     }
 
-    //цей метод може тільки оновити стейт; це такий сетстейт, який працює тільки з помилкою
-/*     static getDerivedStateFromError(error) {
-        return {error: true}
-    } */
-
     componentDidCatch(error, errorInfo) {
-        console.log(error, errorInfo)
         this.setState({
             error: true
         })

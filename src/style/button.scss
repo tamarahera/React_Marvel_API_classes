@@ -90,5 +90,6 @@
     }
     &:disabled {
         filter: grayscale(.5);
+        cursor: unset;
     }
 }
